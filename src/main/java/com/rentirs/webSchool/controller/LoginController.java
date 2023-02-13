@@ -8,13 +8,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @Data
 public class LoginController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @GetMapping("/login")
     public String loginPage() {
@@ -28,16 +29,16 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@Valid UserDTO userDTO, BindingResult bindingResult) {
+    public String registerUser(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "register";
         }
-        if (!userDTO.getPassword().equals(userDTO.getRepeatPassword())) {
+        if (!user.getPassword().equals(user.getRepeatPassword())) {
             bindingResult.rejectValue("password", "", "Пароли не совпадают");
             return "register";
         }
-        userService.create(userDTO);
-        return "/login";
+        userService.create(user);
+        return "redirect:/login";
     }
 
 }

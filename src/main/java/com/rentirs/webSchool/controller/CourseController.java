@@ -1,7 +1,9 @@
 package com.rentirs.webSchool.controller;
 
 import com.rentirs.webSchool.model.Course;
+import com.rentirs.webSchool.model.User;
 import com.rentirs.webSchool.repository.CourseRepository;
+import com.rentirs.webSchool.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.security.Principal;
 import java.util.UUID;
 
 @Controller
@@ -19,16 +22,19 @@ import java.util.UUID;
 public class CourseController {
 
     private CourseRepository repository;
+    private UserRepository userRepository;
 
     @GetMapping("/")
-    public String indexPage(Model model) {
-        model.addAttribute("courses", repository.findAll());
+    public String indexPage(Model model, Principal principal) {
+        model.addAttribute("courses", repository.findCourseByUsername(principal.getName()));
         model.addAttribute("course", new Course());
         return "index";
     }
 
     @PostMapping("/")
-    public String newCourse(Course course) {
+    public String newCourse(Course course, Principal principal) {
+        User user =userRepository.findByUsername(principal.getName()).get();
+        course.setUser(user);
         repository.save(course);
         return "redirect:/";
     }

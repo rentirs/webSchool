@@ -24,7 +24,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
                 .and().httpBasic()
                 .and().formLogin().loginPage("/login").loginProcessingUrl("/authenticateTheUser")
-                .and().logout().logoutSuccessUrl("/logout")
+                .and().logout().logoutSuccessUrl("/login")
                 .permitAll();
         return http.build();
     }
