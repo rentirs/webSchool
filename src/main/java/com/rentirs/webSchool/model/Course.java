@@ -13,6 +13,9 @@ public class Course {
     @Id
     @GeneratedValue
     private UUID id;
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String courseName;
+
+    @ManyToOne
+    private User user;
 }
