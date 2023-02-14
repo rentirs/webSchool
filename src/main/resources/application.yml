@@ -1,8 +1,11 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5444/web_shop
-    username: admin
-    password: admin
+#    url: jdbc:postgresql://localhost:5444/web_shop
+#    username: admin
+#    password: admin
+    url: jdbc:postgresql://35.156.170.80:5432/tester
+    username: tester
+    password: 34idh46i
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -20,3 +23,7 @@ spring:
 logging:
   pattern:
     dateformat: "dd.MM.yy HH:mm:ss"
+server:
+  servlet:
+    session:
+      timeout: 5m

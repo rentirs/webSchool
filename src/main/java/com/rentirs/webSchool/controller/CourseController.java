@@ -16,17 +16,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.security.Principal;
 import java.util.UUID;
 
-@Controller
 @Data
 @AllArgsConstructor
+@Controller
 public class CourseController {
 
-    private CourseRepository repository;
-    private UserRepository userRepository;
+    private final CourseRepository repository;
+    private final UserRepository userRepository;
 
     @GetMapping("/")
     public String indexPage(Model model, Principal principal) {
-        model.addAttribute("courses", repository.findCourseByUsername(principal.getName()));
+        model.addAttribute("courses", repository.findByUserUsername(principal.getName()));
         model.addAttribute("course", new Course());
         return "index";
     }
